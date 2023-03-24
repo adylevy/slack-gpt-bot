@@ -14,6 +14,14 @@ const handler = async (
   req: Request,
   context: NextFetchEvent
 ): Promise<Response> => {
+  const { Authorization: callerAuth } = req.headers as unknown as {
+    [key: string]: string;
+  };
+  const token = process.env.SLACK_OAUTH_TOKEN;
+  if (!callerAuth || callerAuth !== `Bearer ${token}`) {
+    return new Response("Missing Authorization header", { status: 400 });
+  }
+
   const { prompt, channelId, ts } = (await req.json()) as {
     prompt?: string;
     channelId: string;

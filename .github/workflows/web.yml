@@ -28,7 +28,7 @@ on:
     types: [created]
   push:
     branches:
-      - master
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
